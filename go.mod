@@ -1,4 +1,4 @@
-module go-ldap-test
+module git.lo/security/go-ldap-test
 
 go 1.13
 
