@@ -1,4 +1,4 @@
-package go_ldap
+package testslapd
 
 import (
 	"fmt"
