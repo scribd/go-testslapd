@@ -2,9 +2,11 @@
 
 A library for testing code against an LDAP directory.
 
-To the author's knowledge, there does not exist an in-memory LDAP server compatible with OpenLDAP for Golang.
+To the author's knowledge, there does not exist an in-memory LDAP server compatible with OpenLDAP for Golang.  There exist plenty of quality libraries that almost fit the author's needs, but not quite.
 
-Since that's what I needed, but I didn't have time to write it, I did next best thing and wrote some code to do it via `docker` for me.
+Since time was limited, the author did the next best thing and wrote some code to do stand up an LDAP directory via `docker`.
+
+It's less elegant than a pure code solution would be, but it works, and it allows one to test one's LDAP dependent code against a temporary local directory server- which was the goal.
 
 In your test code, set up something like this:
 
@@ -180,8 +182,8 @@ In your test code, set up something like this:
     }
 ## Caveats
 
-As currently written, only 1 container can run at a time.
+* As currently written, only 1 container can run at a time.  Concurrent tests of multiple projects using this library might encounter name collision on the test container name. 
 
-If your tests panic, you will likely need to clean out the test container manualy via `docker rm -f ldaptest`.
+* If your tests panic, you will likely need to clean out the test container manualy via `docker rm -f ldaptest`.  Anything that causes golang to simply stop without running the cleanup code will leave the container running in the background.
 
-This package does not install docker for you.  It assumes it's already present, and in the PATH.
+* This package does not install `docker` for you.  The `docker` binary is assumed to be already present, in the PATH, and that the user running the tests has access to the `docker` daemon.
