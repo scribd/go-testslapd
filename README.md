@@ -8,7 +8,9 @@ Since that's what I needed, but I didn't have time to write it, I did next best 
 
 In your test code, set up something like this:
 
-    var slapd *TestSlapd
+	import "github.com/scribd/go-testslapd/pkg/testslapd"
+	
+    var slapd testslapd.*TestSlapd
     var ldapSetup bool
 
     func TestMain(m *testing.M) {
@@ -40,7 +42,7 @@ In your test code, set up something like this:
             adminPassword := "letmein"
             bindDn := fmt.Sprintf("cn=admin,dc=scribd,dc=com")
 
-            slapd = NewTestSlapd(port, org, base, domain, adminPassword, "", "")
+            slapd = testslapd.NewTestSlapd(port, org, base, domain, adminPassword, "", "")
 
             slapd.SetVerbose(true)
 
@@ -92,13 +94,13 @@ In your test code, set up something like this:
             err = slapd.StartTestServer()
             if err != nil {
                 fmt.Printf("Failed starting slapd container %q: %s", slapd.ContainerName, err)
-                t.Fail()
+                log.Fatal(err)
             }
 
             err = slapd.Provision()
             if err != nil {
                 fmt.Printf("Failed running provisioner: %s", err)
-                t.Fail()
+                log.Fatal(err)
             }
 
             ldapSetup = true
@@ -107,7 +109,7 @@ In your test code, set up something like this:
 
     // runs at the end to clean up
     func tearDown() {
-        err := stopTestServer()
+        err := slapd.StopTestServer()
         if err != nil {
             log.Fatalf(err.Error())
         }
