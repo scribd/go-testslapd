@@ -12,7 +12,7 @@ In your test code, set up something like this:
 
 	import "github.com/scribd/go-testslapd/pkg/testslapd"
 	
-    var slapd testslapd.*TestSlapd
+    var slapd *testslapd.TestSlapd
     var ldapSetup bool
 
     func TestMain(m *testing.M) {
