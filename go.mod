@@ -1,4 +1,4 @@
-module git.lo/security/go-testslapd
+module github.com/scribd/go-testslapd
 
 go 1.13
 
